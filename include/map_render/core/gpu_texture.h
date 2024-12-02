@@ -29,7 +29,8 @@
 
 #ifndef DSL_GPU_TEXTURE_H_
 #define DSL_GPU_TEXTURE_H_
-
+#include <GL/glew.h>
+#include <GL/gl.h>
 #include <pangolin/pangolin.h>
 #include <driver_types.h>
 #include <cuda_gl_interop.h>

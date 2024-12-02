@@ -60,6 +60,7 @@ int main(int argc, char **argv) {
 
   // settingDesiredImmatureDensity = 750;
   // settingDesiredPointDensity = 1000;
+  std::cout<<FLAGS_path<<std::endl;
 
   EurocReader reader(FLAGS_path);
   YamlLoader yaml_loader(reader.config_path);
@@ -276,7 +277,7 @@ int main(int argc, char **argv) {
     if (pangolin::Pushed(*gui.run_opt)) {
       LOG(INFO) << "SAVE FIGURES";
       cv::Mat cv_out;
-      cv::cvtColor(cv_plot, cv_out, CV_RGB2BGR);
+      cv::cvtColor(cv_plot, cv_out, cv::COLOR_RGB2BGR);
       cv::imwrite("/tmp/tracked_points_" + time_str + ".jpg", cv_out);
     }
 

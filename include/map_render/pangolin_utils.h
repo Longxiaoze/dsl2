@@ -29,7 +29,8 @@
 
 #ifndef DSL_PANGOLIN_UTILS_H_
 #define DSL_PANGOLIN_UTILS_H_
-
+#include <GL/glew.h>
+#include <GL/gl.h>
 #include <pangolin/pangolin.h>
 #include <pcl/point_types.h>
 #include "util/util_common.h"

@@ -34,7 +34,8 @@
 #include <pcl/io/pcd_io.h>
 #include <pcl/point_cloud.h>
 #include <pcl/point_types.h>
-
+#include <GL/glew.h>
+#include <GL/gl.h>
 #include <pcl/filters/random_sample.h>
 //#include <pcl/features/normal_3d.h>
 #include <pangolin/pangolin.h>

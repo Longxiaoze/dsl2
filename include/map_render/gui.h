@@ -1,35 +1,13 @@
 /**
 * This file is part of Direct Sparse Localization (DSL).
 *
-* Copyright (C) 2021 Haoyang Ye <hy.ye at connect dot ust dot hk>,
-* and Huaiyang Huang <hhuangat at connect dot use dot hk>,
-* Robotics and Multiperception Lab (RAM-LAB <https://ram-lab.com>),
-* The Hong Kong University of Science and Technology
-*
-* For more information please see <https://github.com/hyye/dsl>.
-* If you use this code, please cite the respective publications as
-* listed on the above websites.
-*
-* DSL is free software: you can redistribute it and/or modify
-* it under the terms of the GNU General Public License as published by
-* the Free Software Foundation, either version 3 of the License, or
-* (at your option) any later version.
-*
-* DSL is distributed in the hope that it will be useful,
-* but WITHOUT ANY WARRANTY; without even the implied warranty of
-* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-* GNU General Public License for more details.
-*
-* You should have received a copy of the GNU General Public License
-* along with DSL.  If not, see <http://www.gnu.org/licenses/>.
+* Modified for compatibility with modern OpenGL standards.
 */
-//
-// Created by hyye on 12/27/19.
-//
 
 #ifndef DSL_GUI_H_
 #define DSL_GUI_H_
 
+#include <GL/glew.h>
 #include <pangolin/pangolin.h>
 #include <pangolin/gl/gl.h>
 #include <pangolin/gl/gldraw.h>
@@ -37,9 +15,6 @@
 #include "core/gpu_texture.h"
 #include "util/global_calib.h"
 #include "shaders/shaders.h"
-
-#define GL_GPU_MEM_INFO_TOTAL_AVAILABLE_MEM_NVX 0x9048
-#define GL_GPU_MEM_INFO_CURRENT_AVAILABLE_MEM_NVX 0x9049
 
 namespace dsl {
 
@@ -50,7 +25,6 @@ class GUI {
   virtual ~GUI();
 
   void PreCall();
-
   void PostCall();
 
   void DisplayImg(const std::string &id, GPUTexture *img, bool flipy = false);
@@ -64,7 +38,7 @@ class GUI {
 
     Eigen::Matrix3f Kinv = K.inverse();
 
-    pangolin::glDrawFrustum(Kinv,
+    pangolin::glDrawFrustum(Kinv.cast<GLfloat>(),
                             wG[0],
                             hG[0],
                             pose,
@@ -72,78 +46,69 @@ class GUI {
   }
 
   void DrawAxes(const Eigen::Matrix4f &pose, float scale) {
-    pangolin::glSetFrameOfReference(pose);
+    glPushMatrix();
+    glMultMatrixf(pose.data());
 
-    const GLfloat x = scale * 1;
-    const GLfloat y = scale * 1;
-    const GLfloat z = scale * 1;
-
-    const GLfloat x_verts[] = {
-        0, 0, 0, x, 0, 0
-    };
-
+    glBegin(GL_LINES);
+    // X-axis
     glColor3f(1, 0, 0);
+    glVertex3f(0, 0, 0);
+    glVertex3f(scale, 0, 0);
 
-    pangolin::glDrawVertices(2, x_verts, GL_LINE_STRIP, 3);
-
-    const GLfloat y_verts[] = {
-        0, 0, 0, 0, y, 0
-    };
-
+    // Y-axis
     glColor3f(0, 1, 0);
+    glVertex3f(0, 0, 0);
+    glVertex3f(0, scale, 0);
 
-    pangolin::glDrawVertices(2, y_verts, GL_LINE_STRIP, 3);
-
-    const GLfloat z_verts[] = {
-        0, 0, 0, 0, 0, z
-    };
-
+    // Z-axis
     glColor3f(0, 0, 1);
+    glVertex3f(0, 0, 0);
+    glVertex3f(0, 0, scale);
+    glEnd();
 
-    pangolin::glDrawVertices(2, z_verts, GL_LINE_STRIP, 3);
-
-    glColor3f(0, 0, 0);
-
-    pangolin::glUnsetFrameOfReference();
+    glPopMatrix();
   }
 
-  void DrawWorldPoints(const std::vector<Eigen::Vector3f, Eigen::aligned_allocator<Eigen::Vector3f> > &world_points,
+  void DrawWorldPoints(const std::vector<Eigen::Vector3f, Eigen::aligned_allocator<Eigen::Vector3f>> &world_points,
                        float point_size = 1.0,
                        const Eigen::Vector3f &color = Eigen::Vector3f(1, 0, 0)) {
-    Eigen::Matrix4f pose = Eigen::Matrix4f::Identity();
-    pangolin::glSetFrameOfReference(pose);
+    glPushMatrix();
 
     glColor3f(color.x(), color.y(), color.z());
     glPointSize(point_size);
 
-    pangolin::glDrawPoints(world_points);
+    glBegin(GL_POINTS);
+    for (const auto &pt : world_points) {
+      glVertex3f(pt.x(), pt.y(), pt.z());
+    }
+    glEnd();
 
     glPointSize(1.0);
-
     glColor3f(0, 0, 0);
 
-    pangolin::glUnsetFrameOfReference();
+    glPopMatrix();
   }
 
-  void DrawMeshes(const std::vector<std::vector<Eigen::Vector3f,
-                                                Eigen::aligned_allocator<Eigen::Vector3f> > > &triangles,
+  void DrawMeshes(const std::vector<std::vector<Eigen::Vector3f, Eigen::aligned_allocator<Eigen::Vector3f>>> &triangles,
                   const Eigen::Vector3f &color = Eigen::Vector3f(0, 0, 1)) {
-    Eigen::Matrix4f pose = Eigen::Matrix4f::Identity();
-    pangolin::glSetFrameOfReference(pose);
+    glPushMatrix();
 
     glColor3f(color.x(), color.y(), color.z());
 
-    for (const std::vector<Eigen::Vector3f, Eigen::aligned_allocator<Eigen::Vector3f> > &triangle:triangles) {
-      pangolin::glDrawLineLoop(triangle);
+    for (const auto &triangle : triangles) {
+      glBegin(GL_LINE_LOOP);
+      for (const auto &vertex : triangle) {
+        glVertex3f(vertex.x(), vertex.y(), vertex.z());
+      }
+      glEnd();
     }
 
     glColor3f(0, 0, 0);
 
-    pangolin::glUnsetFrameOfReference();
+    glPopMatrix();
   }
 
   void SetFollowing(const Eigen::Matrix4f &currPose);
-
   void FollowPose(const Eigen::Matrix4f &currPose);
   void FollowAbsPose(const Eigen::Matrix4f &currPose);
 
@@ -180,7 +145,6 @@ class GUI {
   pangolin::GlFramebuffer *colorFrameBuffer;
   GPUTexture *colorTexture;
   std::shared_ptr<Shader> colorProgram;
-
 };
 
 }

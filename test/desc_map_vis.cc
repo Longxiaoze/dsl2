@@ -26,7 +26,8 @@
 //
 // Created by hyye on 8/10/20.
 //
-
+#include <GL/glew.h>
+#include <GL/gl.h>
 #include <pangolin/pangolin.h>
 #include <pangolin/gl/gl.h>
 #include <gflags/gflags.h>

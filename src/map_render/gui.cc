@@ -141,7 +141,9 @@ GUI::GUI(bool offscreen, bool no_panel) {
   pangolin::RegisterKeyPressCallback('g', pangolin::ToggleVarFunctor("ui.Draw global model"));
 
   GLint total_mem_kb = 0;
-  glGetIntegerv(GL_GPU_MEM_INFO_TOTAL_AVAILABLE_MEM_NVX,
+  // glGetIntegerv(GL_GPU_MEM_INFO_TOTAL_AVAILABLE_MEM_NVX,
+  //               &total_mem_kb);
+  glGetIntegerv(GL_GPU_MEMORY_INFO_TOTAL_AVAILABLE_MEMORY_NVX,
                 &total_mem_kb);
   gpuMem = new pangolin::Var<int>("ui.GPU memory free", 0, 0, total_mem_kb / 1024);
   dataIdx = new pangolin::Var<int>("ui.data index", 0, 0, 0);
@@ -184,7 +186,8 @@ void GUI::PreCall() {
 
 void GUI::PostCall() {
   GLint cur_avail_mem_kb = 0;
-  glGetIntegerv(GL_GPU_MEM_INFO_CURRENT_AVAILABLE_MEM_NVX, &cur_avail_mem_kb);
+  // glGetIntegerv(GL_GPU_MEM_INFO_CURRENT_AVAILABLE_MEM_NVX, &cur_avail_mem_kb);
+  glGetIntegerv(GL_GPU_MEMORY_INFO_CURRENT_AVAILABLE_VIDMEM_NVX, &cur_avail_mem_kb);
 
   int memFree = cur_avail_mem_kb / 1024;
 
