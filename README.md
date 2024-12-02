@@ -1,5 +1,78 @@
-# DSL
+# DSL2
+
+The Orginal repo is [DSL](https://github.com/hyye/dsl)
+
 Project page: https://sites.google.com/view/dsl-ram-lab/
+
+I update this code to ubuntu20+cuda11.8+opencv4 and I wrote a detailed installation document.
+
+# Install
+## Packages
+``` bash
+# some libs
+sudo apt-get install cmake
+sudo apt-get install libgoogle-glog-dev libgflags-dev
+sudo apt-get install libatlas-base-dev
+sudo apt-get install libeigen3-dev
+sudo apt-get install libsuitesparse-dev
+
+# Pangolin v0.6
+wget https://github.com/stevenlovegrove/Pangolin/archive/refs/tags/v0.6.zip
+unzip v0.6.zip
+cd Pangolin-0.6
+mkdir build
+cd build
+sudo apt-get install libgl1-mesa-dev libglew-dev libpython3-dev python3-numpy cmake ffmpeg libavcodec-dev libavutil-dev libavformat-dev libswscale-dev libjpeg-dev libpng-dev libtiff-dev libopenexr-dev
+sudo apt install libusb-1.0-0-dev
+cmake ..
+make -j8
+sudo make install
+```
+
+## OpenGL check
+You need to make sure that you run code in your terminal
+``` bash
+glxinfo | grep "OpenGL"
+```
+This needs to show that you are using a NVIDIA GPU driver
+``` html
+OpenGL vendor string: NVIDIA Corporation
+OpenGL renderer string: NVIDIA GeForce RTX 3090/PCIe/SSE2
+OpenGL core profile version string: 4.6.0 NVIDIA 535.216.01
+OpenGL core profile shading language version string: 4.60 NVIDIA
+OpenGL core profile context flags: (none)
+OpenGL core profile profile mask: core profile
+OpenGL core profile extensions:
+OpenGL version string: 4.6.0 NVIDIA 535.216.01
+OpenGL shading language version string: 4.60 NVIDIA
+OpenGL context flags: (none)
+OpenGL profile mask: (none)
+OpenGL extensions:
+OpenGL ES profile version string: OpenGL ES 3.2 NVIDIA 535.216.01
+OpenGL ES profile shading language version string: OpenGL ES GLSL ES 3.20
+OpenGL ES profile extensions:
+
+```
+
+## DSL2
+``` bash
+# git clone https://github.com/hyye/dsl
+git clone https://github.com/Longxiaoze/dsl2
+cd dsl2
+git submodule update --init --recursive
+sudo apt-get install libpcl-dev
+mkdir build
+cd build
+cmake .. -DCMAKE_BUILD_TYPE=RelWithDebInfo
+make
+```
+
+
+run
+cd ~/codes/slam_projects/dsl2/build
+./src/dsl_main -- path ../left_pinhole
+
+
 
 ## Monocular Direct Sparse Localization in a Prior 3D Surfel Map
 #### Authors: Haoyang Ye, Huaiyang Huang, and Ming Liu from [RAM-LAB](https://ram-lab.com/).
