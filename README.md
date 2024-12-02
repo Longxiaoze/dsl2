@@ -4,10 +4,10 @@ The Orginal repo is [DSL](https://github.com/hyye/dsl)
 
 Project page: https://sites.google.com/view/dsl-ram-lab/
 
-I update this code to ubuntu20+cuda11.8+opencv4 and I wrote a detailed installation document.
+I update this code to **ubuntu20+cuda11.8+opencv4** and I wrote a **detailed installation document**.
 
 # Install
-## Packages
+## Packages Pangolin v0.6
 ``` bash
 # some libs
 sudo apt-get install cmake
@@ -30,11 +30,11 @@ sudo make install
 ```
 
 ## OpenGL check
-You need to make sure that you run code in your terminal
+**You need to make sure that you run code in your terminal**
 ``` bash
 glxinfo | grep "OpenGL"
 ```
-This needs to show that you are using a NVIDIA GPU driver
+**This needs to show that you are using a NVIDIA GPU driver**
 ``` html
 OpenGL vendor string: NVIDIA Corporation
 OpenGL renderer string: NVIDIA GeForce RTX 3090/PCIe/SSE2
@@ -68,10 +68,11 @@ make
 ```
 
 
-run
+# RUN
+``` bash
 cd ~/codes/slam_projects/dsl2/build
 ./src/dsl_main -- path ../left_pinhole
-
+```
 
 
 ## Monocular Direct Sparse Localization in a Prior 3D Surfel Map
