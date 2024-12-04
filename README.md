@@ -8,6 +8,10 @@ I update this code to **ubuntu20+cuda11.8+opencv4** and I wrote a **detailed ins
 
 # Install
 ## Packages Pangolin v0.6
+you need to add '#include <limits>' in 'Pangolin-0.6/include/pangolin/gl/colour.h'
+
+you need to change `return attributes.memoryType == cudaMemoryTypeDevice;` to `return attributes.type == cudaMemoryTypeDevice;`  in 'Pangolin-0.6/include/pangolin/image/memcpy.h' line 55
+
 ``` bash
 # some libs
 sudo apt-get install cmake
@@ -20,7 +24,6 @@ sudo apt-get install libsuitesparse-dev
 wget https://github.com/stevenlovegrove/Pangolin/archive/refs/tags/v0.6.zip
 unzip v0.6.zip
 cd Pangolin-0.6
-# you need to add "#include <limits>" in Pangolin-0.6/include/pangolin/gl/colour.h
 mkdir build
 cd build
 sudo apt-get install libgl1-mesa-dev libglew-dev libpython3-dev python3-numpy cmake ffmpeg libavcodec-dev libavutil-dev libavformat-dev libswscale-dev libjpeg-dev libpng-dev libtiff-dev libopenexr-dev
@@ -55,13 +58,36 @@ OpenGL ES profile extensions:
 
 ```
 
+## pcl 1.10
+If you are using ubuntu20, you can use:
+``` bash
+sudo apt-get install libpcl-dev
+```
+
+If you are using ubuntu22, you need to insall pcl-1.10 from source:
+``` bash
+# del existing pcl, be careful with this
+sudo rm -rf /usr/local/include/pcl-*
+sudo rm -rf /usr/local/lib/libpcl_*
+sudo rm -rf /usr/local/lib/pkgconfig/pcl_*
+sudo rm -rf /usr/local/bin/pcl_*
+
+git clone https://github.com/PointCloudLibrary/pcl.git
+cd pcl
+git checkout pcl-1.10.0
+mkdir build
+cd build
+cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr/local ..
+make -j8
+sudo make install
+```
+
 ## DSL2
 ``` bash
 # git clone https://github.com/hyye/dsl
 git clone https://github.com/Longxiaoze/dsl2
 cd dsl2
 git submodule update --init --recursive
-sudo apt-get install libpcl-dev
 mkdir build
 cd build
 cmake .. -DCMAKE_BUILD_TYPE=RelWithDebInfo
