@@ -8,7 +8,7 @@ I update this code to **ubuntu20+cuda11.8+opencv4** and I wrote a **detailed ins
 
 # Install
 ## Packages Pangolin v0.6
-you need to add '#include <limits>' in 'Pangolin-0.6/include/pangolin/gl/colour.h'
+you need to add ' #include <limits> ' in 'Pangolin-0.6/include/pangolin/gl/colour.h'
 
 you need to change `return attributes.memoryType == cudaMemoryTypeDevice;` to `return attributes.type == cudaMemoryTypeDevice;`  in 'Pangolin-0.6/include/pangolin/image/memcpy.h' line 55
 
