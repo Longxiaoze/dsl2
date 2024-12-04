@@ -98,7 +98,7 @@ make
 # RUN
 ``` bash
 cd ~/codes/slam_projects/dsl2/build
-./src/dsl_main -- path ../left_pinhole
+./src/dsl_main --path ../left_pinhole
 ```
 
 
