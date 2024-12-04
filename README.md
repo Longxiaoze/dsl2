@@ -20,6 +20,7 @@ sudo apt-get install libsuitesparse-dev
 wget https://github.com/stevenlovegrove/Pangolin/archive/refs/tags/v0.6.zip
 unzip v0.6.zip
 cd Pangolin-0.6
+# you need to add "#include <limits>" in Pangolin-0.6/include/pangolin/gl/colour.h
 mkdir build
 cd build
 sudo apt-get install libgl1-mesa-dev libglew-dev libpython3-dev python3-numpy cmake ffmpeg libavcodec-dev libavutil-dev libavformat-dev libswscale-dev libjpeg-dev libpng-dev libtiff-dev libopenexr-dev
