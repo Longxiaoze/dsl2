@@ -71,6 +71,7 @@ sudo rm -rf /usr/local/include/pcl-*
 sudo rm -rf /usr/local/lib/libpcl_*
 sudo rm -rf /usr/local/lib/pkgconfig/pcl_*
 sudo rm -rf /usr/local/bin/pcl_*
+sudo rm -rf /usr/local/share/pcl*
 
 git clone https://github.com/PointCloudLibrary/pcl.git
 cd pcl
