@@ -58,7 +58,7 @@ OpenGL ES profile extensions:
 
 ```
 
-## pcl 1.10
+## pcl 1.10 + ceres
 If you are using ubuntu20, you can use:
 ``` bash
 sudo apt-get install libpcl-dev
@@ -82,6 +82,30 @@ cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr/local ..
 make -j8
 sudo make install
 ```
+If you are using ubuntu22, you need to insall ceres 1.14 from source:
+``` bash
+# make sure if you need to install for ceres 1.14
+# sudo rm -rf /usr/local/include/oneapi /usr/local/include/tbb /usr/local/lib/libtbb*
+wget https://github.com/oneapi-src/oneTBB/archive/refs/tags/2020_U3.tar.gz
+tar -xvf 2020_U3.tar.gz
+cd oneTBB-2020_U3
+make -j8
+sudo make install
+cd ../
+
+sudo apt-get update
+sudo apt-get install cmake libgoogle-glog-dev libgflags-dev libatlas-base-dev libeigen3-dev libsuitesparse-dev
+wget http://ceres-solver.org/ceres-solver-1.14.0.tar.gz
+tar zxf ceres-solver-1.14.0.tar.gz
+mkdir build
+cd build
+cmake ..
+make -j8
+make test
+sudo make install
+```
+
+
 
 ## DSL2
 ``` bash
