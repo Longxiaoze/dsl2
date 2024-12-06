@@ -93,6 +93,7 @@ make -j8
 sudo make install
 cd ../
 
+# sudo apt remove --purge libceres-dev
 sudo apt-get update
 sudo apt-get install cmake libgoogle-glog-dev libgflags-dev libatlas-base-dev libeigen3-dev libsuitesparse-dev
 wget http://ceres-solver.org/ceres-solver-1.14.0.tar.gz
